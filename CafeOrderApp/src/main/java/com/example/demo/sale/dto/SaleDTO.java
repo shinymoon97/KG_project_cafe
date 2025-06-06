@@ -8,7 +8,7 @@ public class SaleDTO {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
     private String name;
     private int price;
@@ -27,7 +27,7 @@ public class SaleDTO {
     }
 
     // Getter & Setter
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
