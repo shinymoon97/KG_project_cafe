@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>회원 가입</title>
+</head>
+<body>
+<a href="/">← 뒤로가기</a>
+<h2>회원 가입</h2>
+<form action="/register" method="post">
+    이름 : <input type="text" name="name" required><br>
+    이메일 : <input type="email" name="email" required><br>
+    비밀번호 : <input type="password" name="password" required><br>
+    <input type="submit" value="가입">
+</form>
+<h4>※ 카페 서비스 이용시 사용할 정보를 입력하세요!</h4>
+</body>
+</html>

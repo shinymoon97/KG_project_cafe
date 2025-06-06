@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"> <!-- Thymeleaf 사용 시 -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Coffee - 오늘의 커피</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/product-card.css}">
+</head>
+<body>
+    <!-- Header (Thymeleaf fragment 사용 예시) -->
+    <div th:replace="~{fragments/header :: header}"></div>
+
+    <main>
+        <section class="hero">
+            <h1>New Coffee에 오신 것을 환영합니다!</h1>
+            <p>오늘의 특별한 커피를 만나보세요.</p>
+        </section>
+
+        <section class="product-grid">
+            <h2>추천 메뉴</h2>
+            <div class="products-container">
+                <!-- 상품 카드 (JavaScript 또는 서버 사이드에서 동적 생성) -->
+                <!-- 예시 상품 카드 -->
+                <div class="product-card">
+                    <img th:src="@{/images/coffee_americano.jpg}" alt="아메리카노">
+                    <h3>아메리카노</h3>
+                    <p class="price">4,500원</p>
+                    <p class="description">깊고 진한 풍미의 아메리카노</p>
+                    <button class="add-to-cart-btn" data-product-id="1">장바구니 담기</button>
+                </div>
+                <div class="product-card">
+                    <img th:src="@{/images/coffee_latte.jpg}" alt="카페라떼">
+                    <h3>카페라떼</h3>
+                    <p class="price">5,000원</p>
+                    <p class="description">부드러운 우유와 에스프레소의 조화</p>
+                    <button class="add-to-cart-btn" data-product-id="2">장바구니 담기</button>
+                </div>
+                <!-- ... 더 많은 상품 ... -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer (Thymeleaf fragment 사용 예시) -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+    <script th:src="@{/js/main.js}"></script>
+    <script th:src="@{/js/cart.js}"></script>
+</body>
+</html>

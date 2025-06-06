@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <header th:fragment="header">
+        <nav>
+            <div class="logo">
+                <a th:href="@{/}"><img th:src="@{/images/logo.png}" alt="New Coffee Logo"> New Coffee</a>
+            </div>
+            <ul class="nav-links">
+                <li><a th:href="@{/}">홈</a></li>
+                <li><a th:href="@{/menu}">메뉴</a></li> <!-- 실제 메뉴 페이지 링크 -->
+                <li><a th:href="@{/cart}">장바구니 <span id="cart-count">0</span></a></li>
+                <!-- 로그인 상태에 따라 변경 -->
+                <li th:if="${#authorization.expression('isAuthenticated()')}">
+                    <a th:href="@{/mypage}">마이페이지</a>
+                    <a th:href="@{/logout}">로그아웃</a>
+                </li>
+                <li th:unless="${#authorization.expression('isAuthenticated()')}">
+                    <a th:href="@{/login}">로그인</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+</body>
+</html>
