@@ -10,10 +10,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-// import javax.servlet.ServletException;
-// import javax.servlet.annotation.WebServlet;
-// import javax.servlet.http.*;
-
 @WebServlet("/register")
 public class RegisterServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
