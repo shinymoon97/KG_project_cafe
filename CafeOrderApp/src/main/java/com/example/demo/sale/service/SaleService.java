@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -18,15 +19,21 @@ public class SaleService {
         this.saleDAO = saleDAO;
     }
 
-    public void addMenuItem(SaleDTO sale) throws SQLException {
-        saleDAO.insertMenu(sale);
+    public List<SaleDTO> getAllMenuItems() {
+        try {
+            return saleDAO.getAllMenus();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return Collections.emptyList();
+        }
     }
 
-    public List<SaleDTO> getAllMenuItems() throws SQLException {
-        return saleDAO.getAllMenus();
-    }
-
-    public List<SaleDTO> getMenuItemsByCategory(String category) throws SQLException {
-        return saleDAO.getMenusByCategory(category);
+    public List<SaleDTO> getMenuItemsByCategory(String category) {
+        try {
+            return saleDAO.getMenusByCategory(category);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return Collections.emptyList();
+        }
     }
 }
