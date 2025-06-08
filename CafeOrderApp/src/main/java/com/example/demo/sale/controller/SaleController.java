@@ -5,6 +5,7 @@ import com.example.demo.sale.service.SaleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLException;
 import java.util.List;
 
 @RestController
@@ -19,22 +20,22 @@ public class SaleController {
     }
 
     @PostMapping("/add")
-    public SaleDTO addMenuItem(@RequestBody SaleDTO item) {
-        return saleService.saveMenuItem(item);
+    public String addMenuItem(@RequestBody SaleDTO sale) {
+        try {
+            saleService.addMenuItem(sale);
+            return "메뉴가 추가되었습니다.";
+        } catch (SQLException e) {
+            return "오류: " + e.getMessage();
+        }
     }
 
     @GetMapping
-    public List<SaleDTO> getAllMenuItems() {
+    public List<SaleDTO> getAllMenus() throws SQLException {
         return saleService.getAllMenuItems();
     }
 
-    @GetMapping("/available")
-    public List<SaleDTO> getAvailableMenuItems() {
-        return saleService.getAvailableMenuItems();
-    }
-
     @GetMapping("/category")
-    public List<SaleDTO> getMenuItemsByCategory(@RequestParam String category) {
+    public List<SaleDTO> getMenusByCategory(@RequestParam String category) throws SQLException {
         return saleService.getMenuItemsByCategory(category);
     }
 }
