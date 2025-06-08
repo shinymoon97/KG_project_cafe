@@ -1,35 +1,32 @@
 package com.example.demo.sale.service;
 
+import com.example.demo.sale.dao.SaleDAO;
 import com.example.demo.sale.dto.SaleDTO;
-import com.example.demo.sale.repository.SaleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLException;
 import java.util.List;
 
 @Service
 public class SaleService {
 
-    private final SaleRepository saleRepository;
+    private final SaleDAO saleDAO;
 
     @Autowired
-    public SaleService(SaleRepository saleRepository) {
-        this.saleRepository = saleRepository;
+    public SaleService(SaleDAO saleDAO) {
+        this.saleDAO = saleDAO;
     }
 
-    public SaleDTO saveMenuItem(SaleDTO item) {
-        return saleRepository.save(item);
+    public void addMenuItem(SaleDTO sale) throws SQLException {
+        saleDAO.insertMenu(sale);
     }
 
-    public List<SaleDTO> getAllMenuItems() {
-        return saleRepository.findAll();
+    public List<SaleDTO> getAllMenuItems() throws SQLException {
+        return saleDAO.getAllMenus();
     }
 
-    public List<SaleDTO> getAvailableMenuItems() {
-        return saleRepository.findByAvailableTrue();
-    }
-
-    public List<SaleDTO> getMenuItemsByCategory(String category) {
-        return saleRepository.findByCategory(category);
+    public List<SaleDTO> getMenuItemsByCategory(String category) throws SQLException {
+        return saleDAO.getMenusByCategory(category);
     }
 }
