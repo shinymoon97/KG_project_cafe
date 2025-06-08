@@ -1,20 +1,24 @@
 package com.example.demo.sale.dao;
 
 import com.example.demo.sale.dto.SaleDTO;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class SaleDAO {
 
-    private Connection conn;
+    private final Connection conn;
 
-    public SaleDAO(Connection conn) {
-        this.conn = conn;
+    public SaleDAO() throws SQLException {
+        String url = "jdbc:mysql://localhost:3306/cafe_db?serverTimezone=Asia/Seoul";
+        String user = "your_username";
+        String pass = "your_password";
+        this.conn = DriverManager.getConnection(url, user, pass);
     }
 
-    // 메뉴 등록
     public void insertMenu(SaleDTO sale) throws SQLException {
         String sql = "INSERT INTO menu_items (name, price, category, available) VALUES (?, ?, ?, ?)";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -26,7 +30,6 @@ public class SaleDAO {
         }
     }
 
-    // 전체 메뉴 조회
     public List<SaleDTO> getAllMenus() throws SQLException {
         List<SaleDTO> list = new ArrayList<>();
         String sql = "SELECT * FROM menu_items";
@@ -36,6 +39,7 @@ public class SaleDAO {
 
             while (rs.next()) {
                 SaleDTO sale = new SaleDTO();
+                sale.setId(rs.getInt("id"));
                 sale.setName(rs.getString("name"));
                 sale.setPrice(rs.getInt("price"));
                 sale.setCategory(rs.getString("category"));
@@ -43,11 +47,9 @@ public class SaleDAO {
                 list.add(sale);
             }
         }
-
         return list;
     }
 
-    // 카테고리별 조회
     public List<SaleDTO> getMenusByCategory(String category) throws SQLException {
         List<SaleDTO> list = new ArrayList<>();
         String sql = "SELECT * FROM menu_items WHERE category = ?";
@@ -57,6 +59,7 @@ public class SaleDAO {
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
                     SaleDTO sale = new SaleDTO();
+                    sale.setId(rs.getInt("id"));
                     sale.setName(rs.getString("name"));
                     sale.setPrice(rs.getInt("price"));
                     sale.setCategory(rs.getString("category"));
@@ -65,7 +68,6 @@ public class SaleDAO {
                 }
             }
         }
-
         return list;
     }
 }
