@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/menu")
+@RequestMapping("/api/menu")
 public class SaleController {
 
     private final SaleService saleService;
