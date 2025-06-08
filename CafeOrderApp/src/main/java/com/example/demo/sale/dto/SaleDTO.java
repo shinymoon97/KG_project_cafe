@@ -1,7 +1,7 @@
 package com.example.demo.sale.dto;
 
 public class SaleDTO {
-    private Long id;
+    private int id;
     private String name;
     private int price;
     private String category;
@@ -12,7 +12,7 @@ public class SaleDTO {
     }
 
     // 전체 필드 생성자
-    public SaleDTO(Long id, String name, int price, String category, boolean available) {
+    public SaleDTO(int id, String name, int price, String category, boolean available) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -21,11 +21,11 @@ public class SaleDTO {
     }
 
     // Getter & Setter
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
