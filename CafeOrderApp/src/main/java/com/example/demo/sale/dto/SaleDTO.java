@@ -1,63 +1,17 @@
 package com.example.demo.sale.dto;
 
 public class SaleDTO {
-    private int id;
     private String name;
-    private int price;
     private String category;
-    private boolean available;
+    private int price;
 
-    // 기본 생성자
-    public SaleDTO() {
-    }
+    // Getter / Setter
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 
-    // 전체 필드 생성자
-    public SaleDTO(int id, String name, int price, String category, boolean available) {
-        this.id = id;
-        this.name = name;
-        this.price = price;
-        this.category = category;
-        this.available = available;
-    }
+    public String getCategory() { return category; }
+    public void setCategory(String category) { this.category = category; }
 
-    // Getter & Setter
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public boolean isAvailable() {
-        return available;
-    }
-
-    public void setAvailable(boolean available) {
-        this.available = available;
-    }
+    public int getPrice() { return price; }
+    public void setPrice(int price) { this.price = price; }
 }
