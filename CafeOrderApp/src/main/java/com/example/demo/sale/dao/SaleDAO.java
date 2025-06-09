@@ -1,63 +1,45 @@
 package com.example.demo.sale.dao;
 
 import com.example.demo.sale.dto.SaleDTO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository
 public class SaleDAO {
-    private final String url = "jdbc:mysql://localhost:3306/cafeapp";
-    private final String user = "user";
-    private final String password = "1234";
 
-    public Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(url, user, password);
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
+    // 메뉴 추가
+    public void insertSale(SaleDTO sale) {
+        String sql = "INSERT INTO sale (name, category, price) VALUES (?, ?, ?)";
+        jdbcTemplate.update(sql, sale.getName(), sale.getCategory(), sale.getPrice());
     }
 
-    public List<SaleDTO> getAllMenus() throws SQLException {
-        List<SaleDTO> list = new ArrayList<>();
-        String sql = "SELECT * FROM menu_items";
-
-        try (Connection conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql);
-             ResultSet rs = pstmt.executeQuery()) {
-
-            while (rs.next()) {
-                SaleDTO sale = new SaleDTO();
-                sale.setId(rs.getInt("id"));
-                sale.setName(rs.getString("name"));
-                sale.setPrice(rs.getInt("price"));
-                sale.setCategory(rs.getString("category"));
-                sale.setAvailable(rs.getBoolean("available"));
-                list.add(sale);
-            }
-        }
-        return list;
+    // 전체 메뉴 조회
+    public List<SaleDTO> findAll() {
+        String sql = "SELECT * FROM sale";
+        return jdbcTemplate.query(sql, (rs, rowNum) -> {
+            SaleDTO dto = new SaleDTO();
+            dto.setName(rs.getString("name"));
+            dto.setCategory(rs.getString("category"));
+            dto.setPrice(rs.getInt("price"));
+            return dto;
+        });
     }
 
-    public List<SaleDTO> getMenusByCategory(String category) throws SQLException {
-        List<SaleDTO> list = new ArrayList<>();
-        String sql = "SELECT * FROM menu_items WHERE category = ?";
-
-        try (Connection conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setString(1, category);
-            try (ResultSet rs = pstmt.executeQuery()) {
-                while (rs.next()) {
-                    SaleDTO sale = new SaleDTO();
-                    sale.setId(rs.getInt("id"));
-                    sale.setName(rs.getString("name"));
-                    sale.setPrice(rs.getInt("price"));
-                    sale.setCategory(rs.getString("category"));
-                    sale.setAvailable(rs.getBoolean("available"));
-                    list.add(sale);
-                }
-            }
-        }
-        return list;
+    // 카테고리별 조회
+    public List<SaleDTO> findByCategory(String category) {
+        String sql = "SELECT * FROM sale WHERE category = ?";
+        return jdbcTemplate.query(sql, new Object[]{category}, (rs, rowNum) -> {
+            SaleDTO dto = new SaleDTO();
+            dto.setName(rs.getString("name"));
+            dto.setCategory(rs.getString("category"));
+            dto.setPrice(rs.getInt("price"));
+            return dto;
+        });
     }
 }
