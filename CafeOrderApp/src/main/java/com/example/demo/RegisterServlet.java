@@ -1,58 +1,31 @@
 package com.example.demo;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.*;
-import java.sql.PreparedStatement;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import com.example.demo.member.dto.MemberDTO;
+import com.example.demo.member.service.MemberService;
 
-@WebServlet("/register")
-public class RegisterServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+@RestController
+@RequestMapping("/member")
+public class RegisterServlet {
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        request.setCharacterEncoding("UTF-8");
-        
-        String id = request.getParameter("id");
-        String name = request.getParameter("name");
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
-        
-        String jdbcURL = "jdbc:mysql://localhost:3306/cafeapp";
-        String dbUser = "user";
-        String dbPassword = "1234";
-        
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            
-            Connection conn = DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/cafeapp", "user", "1234");
+    @Autowired
+    private MemberService memberService;
 
-            String sql = "INSERT INTO users (id, name, email, password) VALUES (?, ?, ?, ?)";
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, id);
-            stmt.setString(2, name);
-            stmt.setString(3, email);
-            stmt.setString(4, password);
-            int row = stmt.executeUpdate();
+    @PostMapping("/register")
+    public ResponseEntity<String> register(@RequestBody MemberDTO dto) {
+        memberService.registerMember(dto);
+        return ResponseEntity.ok("회원가입 완료");
+    }
 
-            response.setContentType("text/html;charset=UTF-8");
-            PrintWriter out = response.getWriter();
-            if (row > 0) {
-                out.println("<h3>회원가입 성공</h3>");
-            } else {
-                out.println("<h3>회원가입 실패</h3>");
-            }
-
-            conn.close();
-            
-            response.sendRedirect("success.html");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    @PostMapping("/login")
+    public ResponseEntity<MemberDTO> login(@RequestBody MemberDTO dto) {
+        MemberDTO member = memberService.login(dto.getEmail(), dto.getPassword());
+        return ResponseEntity.ok(member);
     }
 }
